@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "527467431023",
+    "firebase_url": "https://fit-for-life-e98cb.firebaseio.com",
+    "project_id": "fit-for-life-e98cb",
+    "storage_bucket": "fit-for-life-e98cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:527467431023:android:b132aaf81a3c66ff",
+        "android_client_info": {
+          "package_name": "com.lenar.fitforlife"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "527467431023-9gcc2f2eg2hotbojrof008kj02vfsfvn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7r8mRl51a8DZZ2G8rGZ-1EtGrR_p_rik"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

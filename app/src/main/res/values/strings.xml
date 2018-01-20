@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Fit for Life</string>
+    <string name="api_key">fee89ffb0f986e5f22bf98e3c966481e</string>
+    <string name="title_cities">Выбор города</string>
+    <string name="title_settings">Настройки</string>
+    <string name="keep_screen_on">Не выключать экран</string>
+    <string name="update_automatically">Обновлять автоматически</string>
+    <string name="update_every">Обновлять каждые</string>
+
+    <array name="update_times">
+        <item>15 минут</item>
+        <item>30 минут</item>
+        <item>1 час</item>
+    </array>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="action_settings">Settings</string>
+</resources>
