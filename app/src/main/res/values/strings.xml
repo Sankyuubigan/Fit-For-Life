@@ -20,4 +20,9 @@
     <string name="title_activity_main2">Main2Activity</string>
 
     <string name="action_settings">Settings</string>
+    <string name="add_new_entries">Добавить новые записи</string>
+    <string name="history_of_entries">История записей</string>
+    <string name="pedometer">Шагометр</string>
+    <string name="settings">Настройки</string>
+    <string name="dont_have_entries">Здесь будет выводиться история Ваших записей приёмов пищи. Вы ещё ни разу не добавляли записи</string>
 </resources>

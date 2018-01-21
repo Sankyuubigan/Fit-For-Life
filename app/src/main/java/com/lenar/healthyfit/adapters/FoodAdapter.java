@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder> {
-
+    private boolean notShowBtnDelete = false;
     private ArrayList<Food> mData;
 //    private OnCityClickListener mClickListener;
 
@@ -25,6 +25,9 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         mData = cities;
     }
 
+    public void setNotShowBtnDelete(boolean notShowBtnDelete) {
+        this.notShowBtnDelete = notShowBtnDelete;
+    }
 //    public void setOnCityClickListener(OnCityClickListener clickListener) {
 //        mClickListener = clickListener;
 //    }
@@ -38,14 +41,17 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     @Override
     public void onBindViewHolder(FoodAdapter.FoodViewHolder holder, final int position) {
         holder.tv_food_name.setText(mData.get(position).getName());
-        holder.tv_food_kkal.setText(mData.get(position).getKkal()+" ккал");
-        holder.iv_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mData.remove(position);
-                notifyDataSetChanged();
-            }
-        });
+        holder.tv_food_kkal.setText(mData.get(position).getKkal() + " ккал");
+        if (notShowBtnDelete)
+            holder.iv_delete.setVisibility(View.INVISIBLE);
+        else
+            holder.iv_delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mData.remove(position);
+                    notifyDataSetChanged();
+                }
+            });
     }
 
     @Override

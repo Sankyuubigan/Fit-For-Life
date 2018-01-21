@@ -3,7 +3,7 @@ package com.lenar.healthyfit.utils;
 import android.app.Application;
 import android.content.SharedPreferences;
 
-import com.lenar.healthyfit.application.WeatherApplication;
+import com.lenar.healthyfit.FitForLifeApplication;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -21,7 +21,7 @@ public class SharedPreferencesHelper {
 
     private Application mApplication;
 
-    public SharedPreferencesHelper(WeatherApplication application) {
+    public SharedPreferencesHelper(FitForLifeApplication application) {
         mApplication = application;
     }
 

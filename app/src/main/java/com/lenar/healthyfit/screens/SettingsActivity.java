@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 
 import com.lenar.healthyfit.R;
-import com.lenar.healthyfit.application.WeatherApplication;
+import com.lenar.healthyfit.FitForLifeApplication;
 import com.lenar.healthyfit.utils.SharedPreferencesHelper;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -23,7 +23,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        mSharedPreferencesHelper = WeatherApplication.getInstance().getPreferencesHelper();
+        mSharedPreferencesHelper = FitForLifeApplication.getInstance().getPreferencesHelper();
         initViews();
     }
 

@@ -34,6 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
+        android:visibility="gone"
         android:text="@string/update_automatically"
         android:textSize="18sp" />
 
@@ -44,6 +45,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:text="@string/update_every"
+        android:visibility="gone"
         android:textColor="@android:color/black"
         android:textSize="18sp" />
 
@@ -51,5 +53,6 @@
         android:id="@+id/spinner_update_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:padding="16dp" />
 </LinearLayout>
