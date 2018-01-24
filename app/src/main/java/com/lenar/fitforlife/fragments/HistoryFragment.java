@@ -3,6 +3,7 @@ package com.lenar.fitforlife.fragments;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -26,6 +29,7 @@ import com.lenar.fitforlife.models.Food;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class HistoryFragment extends Fragment {
 
@@ -39,6 +43,16 @@ public class HistoryFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_history, container, false);
 
         androidID = Settings.Secure.getString(getActivity().getContentResolver(), Settings.Secure.ANDROID_ID);
+        base_container = v.findViewById(R.id.base_container);
+        tv_description = v.findViewById(R.id.tv_description);
+        progress_bar = v.findViewById(R.id.progress_bar);
+        updateInfo();
+        return v;
+    }
+
+    private void updateInfo() {
+        progress_bar.setVisibility(View.VISIBLE);
+        base_container.removeAllViews();
         FirebaseDatabase.getInstance().getReference("users_history").child(androidID).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
@@ -52,10 +66,6 @@ public class HistoryFragment extends Fragment {
                         //handle databaseError
                     }
                 });
-        base_container = v.findViewById(R.id.base_container);
-        tv_description = v.findViewById(R.id.tv_description);
-        progress_bar = v.findViewById(R.id.progress_bar);
-        return v;
     }
 
     private void showFood(Map<String, Object> singleUser) {
@@ -74,16 +84,16 @@ public class HistoryFragment extends Fragment {
         //Get user map
 //            Map singleUser = (Map) entry.getValue();
 
+        Map<String, Object> sortSingleUser = new TreeMap<String, Object>(singleUser);
+//        Collections.sort(singleUser, new Comparator<String,Object>() {
+//            @Override
+//            public int compare(String s, String t1) {
+//                return 0;
+//            }
+//        });
 
-        //            Collections.sort(keySet, new Comparator<String>() {
-//                @Override
-//                public int compare(String s, String t1) {
-//                    return s.compareTo(t1);
-//                }
-//            });
-
-        for (Map.Entry<String, Object> date : singleUser.entrySet()) {
-            Map<String, String> food = (Map) date.getValue();
+        for (final Map.Entry<String, Object> date : sortSingleUser.entrySet()) {
+            final Map<String, String> food = (Map) date.getValue();
             List<String> keySet = new ArrayList<>(food.keySet());
             List<String> values = new ArrayList<>(food.values());
 
@@ -98,13 +108,19 @@ public class HistoryFragment extends Fragment {
 //        }
             final FoodAdapter foodAdapter = new FoodAdapter(mData, getActivity());
 //            foodAdapter.setNotShowBtnDelete(true);
-            foodAdapter.setOnDeleteListener(new View.OnClickListener() {
+            foodAdapter.setOnDeleteListener(new FoodAdapter.OnDeleteListener() {
                 @Override
-                public void onClick(View view) {
+                public void onDelete(String name) {
                     foodAdapter.notifyDataSetChanged();
 
 //                    final String date = DateFormat.format("dd MMMM", Calendar.getInstance()).toString();
-//                    FirebaseDatabase.getInstance().getReference("users_history").child(androidID).child(date).child(food.getName()).removeValue();
+                    FirebaseDatabase.getInstance().getReference("users_history").child(androidID).child(date.getKey()).child(name).removeValue()
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    updateInfo();
+                                }
+                            });
                 }
             });
             RecyclerView recyclerView = new RecyclerView(getActivity());
@@ -112,7 +128,7 @@ public class HistoryFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             TextView textView = new TextView(getActivity());
             textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            textView.setText(date.getKey() + " - " + Math.round(resultKkal) + " ккал");
+            textView.setText(date.getKey() + " - " + Math.round(resultKkal * 100.0) / 100.0 + " ккал");
             textView.setPadding(0, 10, 0, 10);
             textView.setGravity(Gravity.CENTER);
             textView.setTypeface(Typeface.DEFAULT_BOLD);

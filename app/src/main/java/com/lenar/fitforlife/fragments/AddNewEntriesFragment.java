@@ -41,9 +41,9 @@ public class AddNewEntriesFragment extends Fragment {
         RecyclerView recyclerView = v.findViewById(R.id.rv_food);
         foodAdapter = new FoodAdapter(mData,getActivity());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        foodAdapter.setOnDeleteListener(new View.OnClickListener() {
+        foodAdapter.setOnDeleteListener(new FoodAdapter.OnDeleteListener() {
             @Override
-            public void onClick(View view) {
+            public void onDelete(String name) {
                 updateInfo();
             }
         });

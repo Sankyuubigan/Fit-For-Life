@@ -23,10 +23,14 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     //    private boolean notShowBtnDelete = false;
     private ArrayList<Food> mData;
     //    private OnCityClickListener mClickListener;
-    View.OnClickListener onDeleteListener;
+    OnDeleteListener onDeleteListener;
     Context ctx;
 
-    public void setOnDeleteListener(View.OnClickListener onDeleteListener) {
+    public interface OnDeleteListener {
+        void onDelete(String name);
+    }
+
+    public void setOnDeleteListener(OnDeleteListener onDeleteListener) {
         this.onDeleteListener = onDeleteListener;
     }
 
@@ -69,8 +73,8 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
                 .setPositiveButton("Да", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        onDeleteListener.onDelete(mData.get(position).getName());
                         mData.remove(position);
-                        onDeleteListener.onClick(null);
                     }
                 })
                 .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
