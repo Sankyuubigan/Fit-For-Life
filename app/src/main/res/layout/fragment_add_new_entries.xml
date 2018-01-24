@@ -7,7 +7,7 @@
     android:background="@color/background"
     android:orientation="vertical"
     android:paddingBottom="15dp"
-    tools:context="com.lenar.healthyfit.screens.MainActivity">
+    tools:context="com.lenar.fitforlife.screens.MainActivity">
 
     <TextView
         android:id="@+id/tv_description"

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical"
-    tools:context="com.lenar.healthyfit.screens.SettingsActivity">
+    tools:context="com.lenar.fitforlife.screens.SettingsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -44,8 +44,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:text="@string/update_every"
-        android:visibility="gone"
+        android:text="Очистить всю историю записей"
         android:textColor="@android:color/black"
         android:textSize="18sp" />
 
