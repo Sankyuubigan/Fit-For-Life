@@ -17,7 +17,6 @@ import android.view.inputmethod.InputMethodManager;
 import com.lenar.fitforlife.R;
 import com.lenar.fitforlife.fragments.AddNewEntriesFragment;
 import com.lenar.fitforlife.fragments.HistoryFragment;
-import com.lenar.fitforlife.pedometer.Pedometer;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -102,8 +101,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbar.setTitle(R.string.history_of_entries);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HistoryFragment()).commit();
         } else if (id == R.id.pedometer) {
-
-            Intent settingIntent = new Intent(this, Pedometer.class);
+//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new PedometerFragment()).commit();
+            Intent settingIntent = new Intent(this, PedometerActivity.class);
             startActivity(settingIntent);
         } else if (id == R.id.settings) {
             Intent settingIntent = new Intent(this, SettingsActivity.class);

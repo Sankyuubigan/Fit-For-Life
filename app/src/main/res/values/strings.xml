@@ -25,18 +25,16 @@
     <string name="dont_have_entries">Здесь будет выводиться история Ваших записей приёмов пищи. Вы ещё ни разу не добавляли записи</string>
 
 
-
-
-    <string name="notification_subtitle">Counting your steps</string>
-    <string name="started">Pedometer started.</string>
-    <string name="stopped">Pedometer stopped.</string>
-    <string name="steps">steps</string>
-    <string name="kilometers">kilometers</string>
+    <string name="notification_subtitle">Подсчёт Ваших шагов…</string>
+    <string name="started">Шагометр включен</string>
+    <string name="stopped">Шагометр выключен</string>
+    <string name="steps">Шаги</string>
+    <string name="kilometers">Километры</string>
     <string name="miles">miles</string>
-    <string name="steps_per_minute">steps / minute</string>
-    <string name="kilometers_per_hour">kilometers / hour</string>
+    <string name="steps_per_minute">Шагов в минуту</string>
+    <string name="kilometers_per_hour">Км в час</string>
     <string name="miles_per_hour">miles / hour</string>
-    <string name="calories_burned">calories burned</string>
+    <string name="calories_burned">Калорий сожжено</string>
     <string name="centimeters">centimeters</string>
     <string name="inches">inches</string>
     <string name="kilograms">kilograms</string>

@@ -29,7 +29,7 @@
         android:id="@+id/iv_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_delete"
+        app:srcCompat="@drawable/ic_delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/tv_food_kkal"
         app:layout_constraintRight_toRightOf="parent"
