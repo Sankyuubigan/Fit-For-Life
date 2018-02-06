@@ -57,7 +57,7 @@ public class AddNewEntriesFragment extends Fragment {
             public void onClick(View view) {
                 if (!mData.isEmpty()) {
                     for (Food food : mData)
-                        FirebaseDatabase.getInstance().getReference("users_history").child(androidID).child(date).child(food.getName()).setValue(food.getKkal() + " ккал");
+                        FirebaseDatabase.getInstance().getReference("users_history").child(androidID).child(date).child("calories_collected").child(food.getName()).setValue(food.getKkal() + " ккал");
                     mData.clear();
                     updateInfo();
                     Toast.makeText(getActivity(), "Ваши записи успешно сохранены", Toast.LENGTH_SHORT).show();

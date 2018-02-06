@@ -53,6 +53,7 @@ public class HistoryFragment extends Fragment {
     private void updateInfo() {
         progress_bar.setVisibility(View.VISIBLE);
         base_container.removeAllViews();
+//        FirebaseDatabase.getInstance().getReference("calories_burned").child(androidID).child(last_date).child(String.valueOf(mSteps)).setValue(String.valueOf(mCalories));
         FirebaseDatabase.getInstance().getReference("users_history").child(androidID).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
@@ -93,9 +94,25 @@ public class HistoryFragment extends Fragment {
 //        });
 
         for (final Map.Entry<String, Object> date : sortSingleUser.entrySet()) {
-            final Map<String, String> food = (Map) date.getValue();
-            List<String> keySet = new ArrayList<>(food.keySet());
-            List<String> values = new ArrayList<>(food.values());
+            Object calories_collected, calories_burned;
+            calories_collected = ((Map) date.getValue()).get("calories_collected");
+            calories_burned = ((Map) date.getValue()).get("calories_burned");
+
+            if (calories_collected == null && calories_burned == null)
+                continue;
+
+            Map<String, String> food = (Map) calories_collected;
+
+            List<String> keySet;
+            List<String> values;
+            if (food == null) {
+                food = new TreeMap<>();
+                keySet = new ArrayList<>();
+                values = new ArrayList<>();
+            } else {
+                keySet = new ArrayList<>(food.keySet());
+                values = new ArrayList<>(food.values());
+            }
 
             //Get phone field and append to list
             ArrayList<Food> mData = new ArrayList<>();
@@ -114,7 +131,7 @@ public class HistoryFragment extends Fragment {
                     foodAdapter.notifyDataSetChanged();
 
 //                    final String date = DateFormat.format("dd MMMM", Calendar.getInstance()).toString();
-                    FirebaseDatabase.getInstance().getReference("users_history").child(androidID).child(date.getKey()).child(name).removeValue()
+                    FirebaseDatabase.getInstance().getReference("users_history").child(androidID).child(date.getKey()).child("calories_collected").child(name).removeValue()
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -126,13 +143,27 @@ public class HistoryFragment extends Fragment {
             RecyclerView recyclerView = new RecyclerView(getActivity());
             recyclerView.setAdapter(foodAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
             TextView textView = new TextView(getActivity());
             textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             textView.setText(date.getKey() + " - " + Math.round(resultKkal * 100.0) / 100.0 + " ккал");
             textView.setPadding(0, 10, 0, 10);
             textView.setGravity(Gravity.CENTER);
             textView.setTypeface(Typeface.DEFAULT_BOLD);
+
             base_container.addView(textView);
+
+            if (calories_burned != null) {
+                final Map<String, String> burned = (Map) calories_burned;
+                TextView textView2 = new TextView(getActivity());
+                textView2.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                textView2.setText(burned.toString());
+                textView2.setPadding(0, 10, 0, 10);
+                textView2.setGravity(Gravity.CENTER);
+                textView2.setTypeface(Typeface.DEFAULT_BOLD);
+                base_container.addView(textView2);
+            }
+
             base_container.addView(recyclerView);
         }
         progress_bar.setVisibility(View.GONE);

@@ -206,7 +206,6 @@ public class StepService extends Service {
 
         wakeLock.release();
 
-
         super.onDestroy();
         // Stop detecting
         mSensorManager.unregisterListener(mStepDetector);
@@ -219,7 +218,7 @@ public class StepService extends Service {
 
     public void sendToFireBase(String last_date) {
         final String androidID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        FirebaseDatabase.getInstance().getReference("calories_burned").child(androidID).child(last_date).child(String.valueOf(mSteps)).setValue(String.valueOf(mCalories));
+        FirebaseDatabase.getInstance().getReference("users_history").child(androidID).child(last_date).child("calories_burned").child(String.valueOf(mSteps)).setValue(String.valueOf(mCalories));
         resetValues();
     }
 
@@ -301,7 +300,7 @@ public class StepService extends Service {
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (mStepDetector != null) {
-            mStepDetector.setSensitivity(Float.valueOf(mSettings.getString("sensitivity", "10")));
+            mStepDetector.setSensitivity(Float.valueOf(mSettings.getString("sensitivity", "12")));
         }
 
         if (mStepDisplayer != null) mStepDisplayer.reloadSettings();
