@@ -67,6 +67,7 @@ public class StepDisplayer implements StepListener, SpeakingTimer.Listener {
     public void addListener(Listener l) {
         mListeners.add(l);
     }
+
     public void notifyListener() {
         for (Listener listener : mListeners) {
             listener.stepsChanged((int)mCount);

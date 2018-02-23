@@ -300,7 +300,7 @@ public class StepService extends Service {
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (mStepDetector != null) {
-            mStepDetector.setSensitivity(Float.valueOf(mSettings.getString("sensitivity", "12")));
+            mStepDetector.setSensitivity(Float.valueOf(mSettings.getString("sensitivity", "13")));
         }
 
         if (mStepDisplayer != null) mStepDisplayer.reloadSettings();

@@ -86,7 +86,12 @@ public class PedometerActivity extends Activity {
         mPaceValue = 0;
 
         setContentView(R.layout.fragment_pedometer);
-
+        findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         mUtils = Utils.getInstance();
     }
 
@@ -112,7 +117,7 @@ public class PedometerActivity extends Activity {
 
         // Start the service if this is considered to be an application start (last onPause was long ago)
 //        if (!mIsRunning)
-            startStepService();
+        startStepService();
         bindStepService();
 
 

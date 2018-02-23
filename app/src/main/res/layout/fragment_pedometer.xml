@@ -3,6 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/screen_background"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="@dimen/margin">
 
@@ -181,13 +182,22 @@
         </LinearLayout>
 
     </LinearLayout>
-
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Вернуться"
+        android:background="@drawable/btn_background"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp" />
     <!-- Desired pace/speed row -->
     <LinearLayout
         android:id="@+id/desired_pace_control"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:visibility="gone"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         android:paddingTop="@dimen/row_spacing">
