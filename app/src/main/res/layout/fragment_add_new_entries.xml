@@ -7,7 +7,7 @@
     android:background="@color/background"
     android:orientation="vertical"
     android:paddingBottom="15dp"
-    tools:context="com.lenar.fitforlife.screens.MainActivity">
+    tools:context="com.nilden.fitforlife.screens.MainActivity">
 
     <TextView
         android:id="@+id/tv_description"
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="30dp"
-        android:text="Добавляйте продукты питания в рацион здоровой пищи и сохраняйте историю того чего хавали!"
+        android:text="@string/hint_description"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

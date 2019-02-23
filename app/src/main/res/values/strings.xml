@@ -113,4 +113,5 @@
     <string name="tell_fasterslower_setting_details">Helps you maintain your desired pace or speed (interval doesn\'t apply)</string>
     <string name="incorrect_step_length">Incorrect step length format! Go to the Settings to change it!</string>
     <string name="quit">Quit</string>
+    <string name="hint_description">Добавляйте продукты питания из Вашего рациона и сохраняйте историю Вашего здорового питания!</string>
 </resources>

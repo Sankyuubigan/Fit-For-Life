@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.lenar.fitforlife">
+    package="com.nilden.fitforlife">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.lenar.fitforlife.FitForLifeApplication"
+        android:name="com.nilden.fitforlife.FitForLifeApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".screens.SplashActivity"
+            android:name="com.nilden.fitforlife.screens.SplashActivity"
             android:noHistory="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -22,12 +22,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".screens.MainActivity" />
-        <activity android:name=".screens.PedometerActivity" />
-        <activity android:name=".screens.SettingsActivity" />
+        <activity android:name="com.nilden.fitforlife.screens.MainActivity" />
+        <activity android:name="com.nilden.fitforlife.screens.PedometerActivity" />
+        <activity android:name="com.nilden.fitforlife.screens.SettingsActivity" />
 
         <receiver
-            android:name="com.lenar.fitforlife.services.SensorRestarterBroadcastReceiver"
+            android:name="com.nilden.fitforlife.services.SensorRestarterBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
             android:label="RestartServiceWhenStopped">
@@ -37,7 +37,7 @@
         </receiver>
 
         <service
-            android:name="com.lenar.fitforlife.services.StepService"
+            android:name="com.nilden.fitforlife.services.StepService"
             android:enabled="true" />
     </application>
 
