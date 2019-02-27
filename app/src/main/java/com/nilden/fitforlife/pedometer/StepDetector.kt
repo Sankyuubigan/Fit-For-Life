@@ -23,8 +23,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.util.Log
-
-import java.util.ArrayList
+import java.util.*
 
 class StepDetector : SensorEventListener {
     private var mLimit = 10f
@@ -54,12 +53,10 @@ class StepDetector : SensorEventListener {
         mStepListeners.add(sl)
     }
 
-    //public void onSensorChanged(int sensor, float[] values) {
     override fun onSensorChanged(event: SensorEvent) {
         val sensor = event.sensor
         synchronized(this) {
-            if (sensor.type == Sensor.TYPE_ORIENTATION) {
-            } else {
+            if (sensor.type != Sensor.TYPE_ORIENTATION) {
                 val j = if (sensor.type == Sensor.TYPE_ACCELEROMETER) 1 else 0
                 if (j == 1) {
                     var vSum = 0f
@@ -103,7 +100,7 @@ class StepDetector : SensorEventListener {
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
-        // TODO Auto-generated method stub
+
     }
 
     companion object {

@@ -25,10 +25,10 @@ import java.util.*
 
 class HistoryFragment : Fragment() {
 
-    private var tv_description: TextView? = null
-    private var base_container: LinearLayout? = null
-    private var progress_bar: ProgressBar? = null
-    private var androidID: String? = null
+    private lateinit var tv_description: TextView
+    private lateinit var base_container: LinearLayout
+    private lateinit var progress_bar: ProgressBar
+    private lateinit var androidID: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v = inflater.inflate(R.layout.fragment_history, container, false)
@@ -42,9 +42,9 @@ class HistoryFragment : Fragment() {
     }
 
     private fun updateInfo() {
-        progress_bar!!.visibility = View.VISIBLE
-        base_container!!.removeAllViews()
-        FirebaseDatabase.getInstance().getReference("users_history").child(androidID!!).addListenerForSingleValueEvent(
+        progress_bar.visibility = View.VISIBLE
+        base_container.removeAllViews()
+        FirebaseDatabase.getInstance().getReference("users_history").child(androidID).addListenerForSingleValueEvent(
                 object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         //Get map of users in datasnapshot
@@ -57,12 +57,23 @@ class HistoryFragment : Fragment() {
                 })
     }
 
+    private fun addTextDescription(description: String, color: Int) {
+        val textDescription = TextView(activity)
+        textDescription.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        textDescription.text = description
+        textDescription.setPadding(0, 10, 0, 10)
+        textDescription.gravity = Gravity.CENTER
+        textDescription.setTextColor(resources.getColor(color))
+        textDescription.typeface = Typeface.DEFAULT_BOLD
+        base_container.addView(textDescription)
+    }
+
     private fun showFood(singleUser: Map<String, Any>?) {
 
         if (singleUser == null) {
-            tv_description!!.visibility = View.VISIBLE
-            FitForLifeApplication.initAnimation(tv_description!!)
-            progress_bar!!.visibility = View.GONE
+            tv_description.visibility = View.VISIBLE
+            FitForLifeApplication.initAnimation(tv_description)
+            progress_bar.visibility = View.GONE
             return
         }
         //sort array
@@ -100,10 +111,10 @@ class HistoryFragment : Fragment() {
             }
             //        }
             val foodAdapter = FoodAdapter(mData, activity)
-            foodAdapter.setOnDeleteListener(object: FoodAdapter.OnDeleteListener {
+            foodAdapter.setOnDeleteListener(object : FoodAdapter.OnDeleteListener {
                 override fun onDelete(name: String) {
                     foodAdapter.notifyDataSetChanged()
-                    FirebaseDatabase.getInstance().getReference("users_history").child(androidID!!).child(key).child("calories_collected").child(name).removeValue()
+                    FirebaseDatabase.getInstance().getReference("users_history").child(androidID).child(key).child("calories_collected").child(name).removeValue()
                             .addOnCompleteListener { updateInfo() }
                 }
             })
@@ -111,44 +122,23 @@ class HistoryFragment : Fragment() {
             recyclerView.adapter = foodAdapter
             recyclerView.layoutManager = LinearLayoutManager(activity)
 
-            val textDate = TextView(activity)
-            textDate.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            textDate.text = key
-            textDate.setPadding(0, 10, 0, 10)
-            textDate.gravity = Gravity.CENTER
-            textDate.typeface = Typeface.DEFAULT_BOLD
-
-            base_container!!.addView(textDate)
+            addTextDescription(key,android.R.color.darker_gray)
 
             if (resultKkal != 0.0) {
                 val stringDescription = "Набрано: " + Math.round(resultKkal * 100.0) / 100.0 + " ккал"
 
-                val textDescription = TextView(activity)
-                textDescription.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                textDescription.text = stringDescription
-                textDescription.setPadding(0, 10, 0, 10)
-                textDescription.gravity = Gravity.CENTER
-                textDescription.setTextColor(resources.getColor(R.color.colorPrimary))
-                textDescription.typeface = Typeface.DEFAULT_BOLD
-                base_container!!.addView(textDescription)
+                addTextDescription(stringDescription, R.color.colorPrimary)
             }
-            base_container!!.addView(recyclerView)
+            base_container.addView(recyclerView)
             if (calories_burned != null) {
-                val burned = calories_burned as Map<*, *>?
-                val stringDescription = "Сожжено: " + burned!!.values + " ккал. Шагов: " + burned.keys
+                val burned = calories_burned as Map<*, *>
+                val stringDescription = "Сожжено: " + burned.values + " ккал. Шагов: " + burned.keys
 
-                val textDescription = TextView(activity)
-                textDescription.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                textDescription.text = stringDescription
-                textDescription.setPadding(0, 10, 0, 10)
-                textDescription.gravity = Gravity.CENTER
-                textDescription.setTextColor(resources.getColor(R.color.colorAccent))
-                textDescription.typeface = Typeface.DEFAULT_BOLD
-                base_container!!.addView(textDescription)
+                addTextDescription(stringDescription, R.color.colorAccent)
             }
 
 
         }
-        progress_bar!!.visibility = View.GONE
+        progress_bar.visibility = View.GONE
     }
 }

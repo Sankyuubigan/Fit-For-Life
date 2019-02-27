@@ -13,7 +13,7 @@ import com.nilden.fitforlife.adapters.FoodAdapter.FoodViewHolder
 import com.nilden.fitforlife.models.Food
 import java.util.*
 
- class FoodAdapter(private val mData: ArrayList<Food>?, internal var ctx: FragmentActivity?) : RecyclerView.Adapter<FoodViewHolder>() {
+ class FoodAdapter(private val mData: ArrayList<Food>, internal var ctx: FragmentActivity?) : RecyclerView.Adapter<FoodViewHolder>() {
     internal var onDeleteListener: OnDeleteListener? = null
 
      interface OnDeleteListener {
@@ -30,8 +30,8 @@ import java.util.*
     }
 
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
-        holder.tv_food_name.text = mData!![position].name
-        holder.tv_food_kkal.text = mData[position].kkal.toString() + " ккал"
+        holder.tv_food_name.text = mData[position].name
+        holder.tv_food_kkal.text = "${mData[position].kkal} ккал"
         holder.iv_delete.setOnClickListener { showDeleteDialog("Вы уверены, что хотите удалить запись?", position) }
     }
 
@@ -39,14 +39,14 @@ import java.util.*
         AlertDialog.Builder(ctx!!)
                 .setMessage(message)
                 .setPositiveButton("Да") { dialog, which ->
-                    onDeleteListener?.onDelete(mData!![position].name)
-                    mData?.removeAt(position)
+                    onDeleteListener?.onDelete(mData[position].name)
+                    mData.removeAt(position)
                 }
                 .setNegativeButton("Отмена") { dialog, which -> dialog.dismiss() }.create().show()
     }
 
     override fun getItemCount(): Int {
-        return mData?.size ?: 0
+        return mData.size
     }
 
     inner class FoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

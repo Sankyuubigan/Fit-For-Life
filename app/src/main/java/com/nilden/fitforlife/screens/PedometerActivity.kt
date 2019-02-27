@@ -41,16 +41,16 @@ import com.nilden.fitforlife.pedometer.Utils
 import com.nilden.fitforlife.services.StepService
 
 class PedometerActivity : Activity() {
-    private var mSettings: SharedPreferences? = null
-    private var mPedometerSettings: PedometerSettings? = null
-    private var mUtils: Utils? = null
+    private lateinit var mSettings: SharedPreferences
+    private lateinit var mPedometerSettings: PedometerSettings
+    private lateinit var mUtils: Utils
 
-    private var mStepValueView: TextView? = null
-    private var mPaceValueView: TextView? = null
-    private var mDistanceValueView: TextView? = null
-    private var mSpeedValueView: TextView? = null
-    private var mCaloriesValueView: TextView? = null
-    internal var mDesiredPaceView: TextView? = null
+    private lateinit var mStepValueView: TextView
+    private lateinit var mPaceValueView: TextView
+    private lateinit var mDistanceValueView: TextView
+    private lateinit var mSpeedValueView: TextView
+    private lateinit var mCaloriesValueView: TextView
+    private lateinit var mDesiredPaceView: TextView
     private var mStepValue: Int = 0
     private var mPaceValue: Int = 0
     private var mDistanceValue: Float = 0.toFloat()
@@ -112,38 +112,38 @@ class PedometerActivity : Activity() {
             when (msg.what) {
                 STEPS_MSG -> {
                     mStepValue = msg.arg1
-                    mStepValueView!!.text = "" + mStepValue
+                    mStepValueView.text = "" + mStepValue
                 }
                 PACE_MSG -> {
                     mPaceValue = msg.arg1
                     if (mPaceValue <= 0) {
-                        mPaceValueView!!.text = "0"
+                        mPaceValueView.text = "0"
                     } else {
-                        mPaceValueView!!.text = "" + mPaceValue
+                        mPaceValueView.text = "" + mPaceValue
                     }
                 }
                 DISTANCE_MSG -> {
                     mDistanceValue = msg.arg1 / 1000f
                     if (mDistanceValue <= 0) {
-                        mDistanceValueView!!.text = "0"
+                        mDistanceValueView.text = "0"
                     } else {
-                        mDistanceValueView!!.text = ("" + (mDistanceValue + 0.000001f)).substring(0, 5)
+                        mDistanceValueView.text = ("" + (mDistanceValue + 0.000001f)).substring(0, 5)
                     }
                 }
                 SPEED_MSG -> {
                     mSpeedValue = msg.arg1 / 1000f
                     if (mSpeedValue <= 0) {
-                        mSpeedValueView!!.text = "0"
+                        mSpeedValueView.text = "0"
                     } else {
-                        mSpeedValueView!!.text = ("" + (mSpeedValue + 0.000001f)).substring(0, 4)
+                        mSpeedValueView.text = ("" + (mSpeedValue + 0.000001f)).substring(0, 4)
                     }
                 }
                 CALORIES_MSG -> {
                     mCaloriesValue = msg.arg1
                     if (mCaloriesValue <= 0) {
-                        mCaloriesValueView!!.text = "0"
+                        mCaloriesValueView.text = "0"
                     } else {
-                        mCaloriesValueView!!.text = "" + mCaloriesValue
+                        mCaloriesValueView.text = "" + mCaloriesValue
                     }
                 }
                 else -> super.handleMessage(msg)
@@ -177,13 +177,13 @@ class PedometerActivity : Activity() {
         super.onResume()
 
         mSettings = PreferenceManager.getDefaultSharedPreferences(this)
-        mSettings!!.edit().putString("units", "metric").apply()
+        mSettings.edit().putString("units", "metric").apply()
         mPedometerSettings = PedometerSettings(mSettings as SharedPreferences)
 
-        mUtils!!.setSpeak(mSettings!!.getBoolean("speak", false))
+        mUtils.setSpeak(mSettings.getBoolean("speak", false))
 
         // Read from preferences if the service was running on the last onPause
-        mIsRunning = mPedometerSettings!!.isServiceRunning
+        mIsRunning = mPedometerSettings.isServiceRunning
 
         // Start the service if this is considered to be an application start (last onPause was long ago)
         //        if (!mIsRunning)
@@ -191,7 +191,7 @@ class PedometerActivity : Activity() {
         bindStepService()
 
 
-        mPedometerSettings!!.clearServiceRunning()
+        mPedometerSettings.clearServiceRunning()
 
         mStepValueView = findViewById<View>(R.id.step_value) as TextView
         mPaceValueView = findViewById<View>(R.id.pace_value) as TextView
@@ -200,7 +200,7 @@ class PedometerActivity : Activity() {
         mCaloriesValueView = findViewById<View>(R.id.calories_value) as TextView
         mDesiredPaceView = findViewById<View>(R.id.desired_pace_value) as TextView
 
-        mIsMetric = mPedometerSettings!!.isMetric
+        mIsMetric = mPedometerSettings.isMetric
         (findViewById<View>(R.id.distance_units) as TextView).text = getString(
                 if (mIsMetric)
                     R.string.kilometers
@@ -214,16 +214,16 @@ class PedometerActivity : Activity() {
                     R.string.miles_per_hour
         )
 
-        mMaintain = mPedometerSettings!!.maintainOption
+        mMaintain = mPedometerSettings.maintainOption
         (this.findViewById<View>(R.id.desired_pace_control) as LinearLayout).visibility = if (mMaintain != PedometerSettings.M_NONE)
             View.VISIBLE
         else
             View.GONE
         if (mMaintain == PedometerSettings.M_PACE) {
             mMaintainInc = 5f
-            mDesiredPaceOrSpeed = mPedometerSettings!!.desiredPace.toFloat()
+            mDesiredPaceOrSpeed = mPedometerSettings.desiredPace.toFloat()
         } else if (mMaintain == PedometerSettings.M_SPEED) {
-            mDesiredPaceOrSpeed = mPedometerSettings!!.desiredSpeed
+            mDesiredPaceOrSpeed = mPedometerSettings.desiredSpeed
             mMaintainInc = 0.1f
         }
         val button1 = findViewById<View>(R.id.button_desired_pace_lower) as Button
@@ -255,9 +255,9 @@ class PedometerActivity : Activity() {
 
     private fun displayDesiredPaceOrSpeed() {
         if (mMaintain == PedometerSettings.M_PACE) {
-            mDesiredPaceView!!.text = "" + mDesiredPaceOrSpeed.toInt()
+            mDesiredPaceView.text = "" + mDesiredPaceOrSpeed.toInt()
         } else {
-            mDesiredPaceView!!.text = "" + mDesiredPaceOrSpeed
+            mDesiredPaceView.text = "" + mDesiredPaceOrSpeed
         }
     }
 
@@ -267,9 +267,9 @@ class PedometerActivity : Activity() {
             unbindStepService()
         }
         if (mQuitting) {
-            mPedometerSettings!!.saveServiceRunningWithNullTimestamp(mIsRunning)
+            mPedometerSettings.saveServiceRunningWithNullTimestamp(mIsRunning)
         } else {
-            mPedometerSettings!!.saveServiceRunningWithTimestamp(mIsRunning)
+            mPedometerSettings.saveServiceRunningWithTimestamp(mIsRunning)
         }
 
         super.onPause()
@@ -304,7 +304,7 @@ class PedometerActivity : Activity() {
     }
 
     private fun savePaceSetting() {
-        mPedometerSettings!!.savePaceOrSpeedSetting(mMaintain, mDesiredPaceOrSpeed)
+        mPedometerSettings.savePaceOrSpeedSetting(mMaintain, mDesiredPaceOrSpeed)
     }
 
 
@@ -352,11 +352,11 @@ class PedometerActivity : Activity() {
         if (mService != null && mIsRunning) {
             mService!!.resetValues()
         } else {
-            mStepValueView!!.text = "0"
-            mPaceValueView!!.text = "0"
-            mDistanceValueView!!.text = "0"
-            mSpeedValueView!!.text = "0"
-            mCaloriesValueView!!.text = "0"
+            mStepValueView.text = "0"
+            mPaceValueView.text = "0"
+            mDistanceValueView.text = "0"
+            mSpeedValueView.text = "0"
+            mCaloriesValueView.text = "0"
             val state = getSharedPreferences("state", 0)
             val stateEditor = state.edit()
             if (updateDisplay) {

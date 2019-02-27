@@ -22,11 +22,11 @@ import java.util.*
 class AddNewEntriesFragment : Fragment() {
 
     internal var mData = ArrayList<Food>()
-    private var et_name: EditText? = null
-    private var et_count: EditText? = null
-    private var foodAdapter: FoodAdapter? = null
-    private var tv_description: TextView? = null
-    private var tv_result: TextView? = null
+    private lateinit var et_name: EditText
+    private lateinit var et_count: EditText
+    private lateinit var foodAdapter: FoodAdapter
+    private lateinit var tv_description: TextView
+    private lateinit var tv_result: TextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v = inflater.inflate(R.layout.fragment_add_new_entries, container, false)
@@ -37,7 +37,7 @@ class AddNewEntriesFragment : Fragment() {
         val recyclerView = v.findViewById<RecyclerView>(R.id.rv_food)
         foodAdapter = FoodAdapter(mData, activity)
         val layoutManager = LinearLayoutManager(activity)
-        foodAdapter!!.setOnDeleteListener(object: FoodAdapter.OnDeleteListener {
+        foodAdapter.setOnDeleteListener(object: FoodAdapter.OnDeleteListener {
             override fun onDelete(name: String) {
                 updateInfo()
             }
@@ -58,25 +58,25 @@ class AddNewEntriesFragment : Fragment() {
                 Toast.makeText(activity, "Сначала добавьте записи в список", Toast.LENGTH_SHORT).show()
         }
         v.findViewById<View>(R.id.btn_add).setOnClickListener {
-            if (et_name!!.text.length != 0 && et_count!!.text.length != 0) {
-                mData.add(Food(et_name!!.text.toString(), java.lang.Double.valueOf(et_count!!.text.toString())!!))
+            if (et_name.text.length != 0 && et_count.text.length != 0) {
+                mData.add(Food(et_name.text.toString(), java.lang.Double.valueOf(et_count.text.toString())))
                 updateInfo()
-                et_count!!.setText("")
-                et_name!!.setText("")
+                et_count.setText("")
+                et_name.setText("")
             } else
                 Toast.makeText(activity, "Пустые поля", Toast.LENGTH_SHORT).show()
         }
         tv_description = v.findViewById(R.id.tv_description)
-        FitForLifeApplication.initAnimation(tv_description!!)
+        FitForLifeApplication.initAnimation(tv_description)
         return v
     }
 
     fun updateInfo() {
-        foodAdapter!!.notifyDataSetChanged()
+        foodAdapter.notifyDataSetChanged()
         var result = 0.0
         for (food in mData)
             result += food.kkal
-        tv_result!!.text = "Итого: " + Math.round(result) + " ккал"
+        tv_result.text = "Итого: ${Math.round(result)} ккал"
     }
 
 }

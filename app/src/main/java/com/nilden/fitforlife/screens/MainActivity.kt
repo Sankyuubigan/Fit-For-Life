@@ -20,8 +20,8 @@ import com.nilden.fitforlife.fragments.HistoryFragment
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    internal var toolbar: Toolbar? = null
-    internal var drawer: DrawerLayout? = null
+    internal lateinit var toolbar: Toolbar
+    internal lateinit var drawer: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, AddNewEntriesFragment()).commit()
 
         toolbar = findViewById(R.id.toolbar)
-        toolbar!!.setTitle(R.string.add_new_entries)
+        toolbar.setTitle(R.string.add_new_entries)
         setSupportActionBar(toolbar)
 
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
@@ -72,8 +72,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
-        if (drawer!!.isDrawerOpen(GravityCompat.START)) {
-            drawer!!.closeDrawer(GravityCompat.START)
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
         }
@@ -86,12 +86,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         if (id == R.id.add_new_entries) {
             // Handle the camera action
-            toolbar!!.setTitle(R.string.add_new_entries)
-
+            toolbar.setTitle(R.string.add_new_entries)
             supportFragmentManager.beginTransaction().replace(R.id.fragment_container, AddNewEntriesFragment()).commit()
         } else if (id == R.id.history) {
-
-            toolbar!!.setTitle(R.string.history_of_entries)
+            toolbar.setTitle(R.string.history_of_entries)
             supportFragmentManager.beginTransaction().replace(R.id.fragment_container, HistoryFragment()).commit()
         } else if (id == R.id.pedometer) {
             val settingIntent = Intent(this, PedometerActivity::class.java)
@@ -104,7 +102,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else if (id == R.id.nav_send) {
 
         }
-        drawer!!.closeDrawer(GravityCompat.START)
+        drawer.closeDrawer(GravityCompat.START)
         return true
     }
 }
