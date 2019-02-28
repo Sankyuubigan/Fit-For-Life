@@ -74,9 +74,9 @@ class PedometerActivity : Activity() {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             mService = (service as StepService.StepBinder).service
 
-            mService!!.registerCallback(mCallback)
+            mService?.registerCallback(mCallback)
 
-            mService!!.reloadSettings()
+            mService?.reloadSettings()
         }
 
         override fun onServiceDisconnected(className: ComponentName) {

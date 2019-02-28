@@ -9,8 +9,6 @@ import java.util.*
 class Utils private constructor() : TextToSpeech.OnInitListener {
     private var mService: Service? = null
 
-    /********** SPEAKING  */
-
     private var mTts: TextToSpeech? = null
     var isSpeakingEnabled = false
         private set

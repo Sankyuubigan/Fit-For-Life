@@ -1,11 +1,9 @@
 package com.nilden.fitforlife.utils
 
 import android.app.Application
-import android.content.SharedPreferences
-
-import com.nilden.fitforlife.FitForLifeApplication
-
 import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
+import com.nilden.fitforlife.FitForLifeApplication
 
 class SharedPreferencesHelper(application: FitForLifeApplication) {
 
@@ -44,11 +42,11 @@ class SharedPreferencesHelper(application: FitForLifeApplication) {
 
     companion object {
 
-        private val SETTING_PREFERENCES_FILE = "com.alekzunder.weatherapp.settings"
+        private val SETTING_PREFERENCES_FILE = "com.nilden.firforlife.settings"
 
-        val KEY_KEEP_SCREEN_ON = "com.alekzunder.weatherapp.keep_screen_on"
-        val KEY_UPDATING_TIME = "com.alekzunder.weatherapp.updating_time"
-        val KEY_UPDATE_AUTOMATICALLY = "com.alekzunder.weatherapp.update_automatically"
+        val KEY_KEEP_SCREEN_ON = "com.nilden.firforlife.keep_screen_on"
+        val KEY_UPDATING_TIME = "com.nilden.firforlife.updating_time"
+        val KEY_UPDATE_AUTOMATICALLY = "com.nilden.firforlife.update_automatically"
 
         private val DEFAULT_STRING = ""
         private val DEFAULT_INT = 30

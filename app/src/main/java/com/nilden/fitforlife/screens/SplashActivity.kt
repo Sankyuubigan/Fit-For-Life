@@ -9,6 +9,8 @@ import com.nilden.fitforlife.R
 
 class SplashActivity : AppCompatActivity() {
 
+    private val WAITING_TIME: Long = 2500
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
@@ -17,10 +19,5 @@ class SplashActivity : AppCompatActivity() {
             this@SplashActivity.startActivity(mainIntent)
             this@SplashActivity.finish()
         }, WAITING_TIME)
-    }
-
-    companion object {
-
-        private val WAITING_TIME: Long = 2500
     }
 }

@@ -17,10 +17,10 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.nilden.fitforlife.FitForLifeApplication
 import com.nilden.fitforlife.R
 import com.nilden.fitforlife.adapters.FoodAdapter
 import com.nilden.fitforlife.models.Food
+import com.nilden.fitforlife.utils.AnimationHelper
 import java.util.*
 
 class HistoryFragment : Fragment() {
@@ -72,7 +72,7 @@ class HistoryFragment : Fragment() {
 
         if (singleUser == null) {
             tv_description.visibility = View.VISIBLE
-            FitForLifeApplication.initAnimation(tv_description)
+            AnimationHelper.initAnimation(tv_description)
             progress_bar.visibility = View.GONE
             return
         }
@@ -110,7 +110,7 @@ class HistoryFragment : Fragment() {
                 resultKkal += kkal
             }
             //        }
-            val foodAdapter = FoodAdapter(mData, activity)
+            val foodAdapter = FoodAdapter(mData, activity!!)
             foodAdapter.setOnDeleteListener(object : FoodAdapter.OnDeleteListener {
                 override fun onDelete(name: String) {
                     foodAdapter.notifyDataSetChanged()

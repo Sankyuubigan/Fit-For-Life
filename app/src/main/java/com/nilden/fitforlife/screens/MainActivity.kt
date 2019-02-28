@@ -1,9 +1,13 @@
 package com.nilden.fitforlife.screens
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
@@ -13,10 +17,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-
 import com.nilden.fitforlife.R
 import com.nilden.fitforlife.fragments.AddNewEntriesFragment
 import com.nilden.fitforlife.fragments.HistoryFragment
+
+
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -79,7 +85,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-
+    val REQUEST_WAKE_LOCK = 1012
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         val id = item.itemId
@@ -92,8 +98,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             toolbar.setTitle(R.string.history_of_entries)
             supportFragmentManager.beginTransaction().replace(R.id.fragment_container, HistoryFragment()).commit()
         } else if (id == R.id.pedometer) {
-            val settingIntent = Intent(this, PedometerActivity::class.java)
-            startActivity(settingIntent)
+
+            val permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WAKE_LOCK)
+
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WAKE_LOCK), REQUEST_WAKE_LOCK)
+            } else {
+                startPedometer()
+            }
         } else if (id == R.id.settings) {
             val settingIntent = Intent(this, SettingsActivity::class.java)
             startActivity(settingIntent)
@@ -104,5 +116,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         drawer.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            REQUEST_WAKE_LOCK -> if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+               startPedometer()
+            }
+
+            else -> {
+            }
+        }
+    }
+    private fun startPedometer() {
+        val settingIntent = Intent(this, PedometerActivity::class.java)
+        startActivity(settingIntent)
     }
 }

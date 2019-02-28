@@ -13,10 +13,10 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.database.FirebaseDatabase
-import com.nilden.fitforlife.FitForLifeApplication
 import com.nilden.fitforlife.R
 import com.nilden.fitforlife.adapters.FoodAdapter
 import com.nilden.fitforlife.models.Food
+import com.nilden.fitforlife.utils.AnimationHelper
 import java.util.*
 
 class AddNewEntriesFragment : Fragment() {
@@ -35,7 +35,7 @@ class AddNewEntriesFragment : Fragment() {
         et_count = v.findViewById(R.id.et_count)
         tv_result = v.findViewById(R.id.tv_result)
         val recyclerView = v.findViewById<RecyclerView>(R.id.rv_food)
-        foodAdapter = FoodAdapter(mData, activity)
+        foodAdapter = FoodAdapter(mData, activity!!)
         val layoutManager = LinearLayoutManager(activity)
         foodAdapter.setOnDeleteListener(object: FoodAdapter.OnDeleteListener {
             override fun onDelete(name: String) {
@@ -67,7 +67,7 @@ class AddNewEntriesFragment : Fragment() {
                 Toast.makeText(activity, "Пустые поля", Toast.LENGTH_SHORT).show()
         }
         tv_description = v.findViewById(R.id.tv_description)
-        FitForLifeApplication.initAnimation(tv_description)
+        AnimationHelper.initAnimation(tv_description)
         return v
     }
 

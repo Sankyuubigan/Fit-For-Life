@@ -1,7 +1,6 @@
 package com.nilden.fitforlife.screens
 
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.provider.Settings
 import android.support.v7.app.AlertDialog
@@ -13,11 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.CompoundButton
 import android.widget.TextView
-
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.firebase.database.FirebaseDatabase
 import com.nilden.fitforlife.FitForLifeApplication
 import com.nilden.fitforlife.R
@@ -25,46 +20,44 @@ import com.nilden.fitforlife.utils.SharedPreferencesHelper
 
 class SettingsActivity : AppCompatActivity() {
 
-    private var mSharedPreferencesHelper: SharedPreferencesHelper? = null
-    private var remove_all_history: TextView? = null
+    private lateinit var mSharedPreferencesHelper: SharedPreferencesHelper
+    private lateinit var remove_all_history: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        mSharedPreferencesHelper = FitForLifeApplication.instance!!.preferencesHelper
+        mSharedPreferencesHelper = FitForLifeApplication.instance.preferencesHelper
         initViews()
         remove_all_history = findViewById(R.id.remove_all_history)
-        remove_all_history!!.setOnClickListener { showDeleteDialog(this@SettingsActivity, "Вы уверены, что хотите очистить всю Вашу историю записей?") }
+        remove_all_history.setOnClickListener { showDeleteDialog(this@SettingsActivity, getString(R.string.are_you_sure_delete_all_history)) }
     }
 
     fun showDeleteDialog(ctx: Context, message: String) {
         AlertDialog.Builder(ctx).setMessage(message)
-                .setPositiveButton("Да") { dialog, which ->
+                .setPositiveButton(getString(R.string.yes)) { dialog, which ->
                     val androidID = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
-                    FirebaseDatabase.getInstance().getReference("users_history").child(androidID).removeValue()
+                    FirebaseDatabase.getInstance().getReference(getString(R.string.firebase_database_name)).child(androidID).removeValue()
                             .addOnCompleteListener {
-                                AlertDialog.Builder(this@SettingsActivity).setMessage("Ваша история записей была успешно очищена")
-                                        .setPositiveButton("Да") { dialog, which -> dialog.dismiss() }.create().show()
+                                AlertDialog.Builder(this@SettingsActivity).setMessage(getString(R.string.your_history_has_removed_successfully))
+                                        .setPositiveButton(getString(R.string.yes)) { dialog, which -> dialog.dismiss() }.create().show()
                             }
                     dialog.dismiss()
                 }
-                .setNegativeButton("Отмена") { dialog, which -> dialog.dismiss() }.create().show()
+                .setNegativeButton(getString(R.string.cancel)) { dialog, which -> dialog.dismiss() }.create().show()
     }
 
     private fun initViews() {
         val toolbar = findViewById<Toolbar>(R.id.tb_settings)
         setSupportActionBar(toolbar)
-        if (supportActionBar != null) {
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val switchKeepScreenOn = findViewById<SwitchCompat>(R.id.switch_keep_screen_on)
-        switchKeepScreenOn.isChecked = mSharedPreferencesHelper!!.getBoolean(SharedPreferencesHelper.KEY_KEEP_SCREEN_ON)
-        switchKeepScreenOn.setOnCheckedChangeListener { buttonView, isChecked -> mSharedPreferencesHelper!!.saveBoolean(SharedPreferencesHelper.KEY_KEEP_SCREEN_ON, isChecked) }
+        switchKeepScreenOn.isChecked = mSharedPreferencesHelper.getBoolean(SharedPreferencesHelper.KEY_KEEP_SCREEN_ON)
+        switchKeepScreenOn.setOnCheckedChangeListener { buttonView, isChecked -> mSharedPreferencesHelper.saveBoolean(SharedPreferencesHelper.KEY_KEEP_SCREEN_ON, isChecked) }
 
         val switchUpdateAutomatically = findViewById<SwitchCompat>(R.id.switch_update_automatically)
-        switchUpdateAutomatically.isChecked = mSharedPreferencesHelper!!.getBoolean(SharedPreferencesHelper.KEY_UPDATE_AUTOMATICALLY)
-        switchUpdateAutomatically.setOnCheckedChangeListener { buttonView, isChecked -> mSharedPreferencesHelper!!.saveBoolean(SharedPreferencesHelper.KEY_UPDATE_AUTOMATICALLY, isChecked) }
+        switchUpdateAutomatically.isChecked = mSharedPreferencesHelper.getBoolean(SharedPreferencesHelper.KEY_UPDATE_AUTOMATICALLY)
+        switchUpdateAutomatically.setOnCheckedChangeListener { buttonView, isChecked -> mSharedPreferencesHelper.saveBoolean(SharedPreferencesHelper.KEY_UPDATE_AUTOMATICALLY, isChecked) }
 
         val adapter = ArrayAdapter(this,
                 android.R.layout.simple_spinner_item,
@@ -76,7 +69,7 @@ class SettingsActivity : AppCompatActivity() {
         spinner.prompt = "Title"
 
         var position = 2
-        val updateTime = mSharedPreferencesHelper!!.getInt(SharedPreferencesHelper.KEY_UPDATING_TIME)
+        val updateTime = mSharedPreferencesHelper.getInt(SharedPreferencesHelper.KEY_UPDATING_TIME)
         when (updateTime) {
             15 -> position = 0
             30 -> position = 1
@@ -92,7 +85,7 @@ class SettingsActivity : AppCompatActivity() {
                     1 -> updateTime = 30
                     2 -> updateTime = 60
                 }
-                mSharedPreferencesHelper!!.saveInt(SharedPreferencesHelper.KEY_UPDATING_TIME, updateTime)
+                mSharedPreferencesHelper.saveInt(SharedPreferencesHelper.KEY_UPDATING_TIME, updateTime)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
