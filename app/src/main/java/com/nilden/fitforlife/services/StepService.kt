@@ -1,20 +1,3 @@
-/*
- *  Pedometer - Android App
- *  Copyright (C) 2009 Levente Bagi
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 
 package com.nilden.fitforlife.services
 
@@ -57,7 +40,7 @@ class StepService : Service() {
     private lateinit var mNM: NotificationManager
     private var mCallback: ICallback? = null
 
-    internal val date = DateFormat.format("dd MMMM", Calendar.getInstance()).toString()
+    private val date = DateFormat.format("dd MMMM", Calendar.getInstance()).toString()
     private var mSteps: Int = 0
     private var mPace: Int = 0
     private var mDistance: Float = 0.toFloat()
@@ -68,10 +51,6 @@ class StepService : Service() {
 
     private val mBinder = StepBinder()
 
-
-    /**
-     * Forwards pace values from PaceNotifier to the activity.
-     */
     private val mStepListener = object : StepDisplayer.Listener {
         override fun stepsChanged(value: Int) {
             mSteps = value
@@ -172,7 +151,7 @@ class StepService : Service() {
 
         // Load settings
         mSettings = PreferenceManager.getDefaultSharedPreferences(this)
-        mPedometerSettings = PedometerSettings(mSettings as SharedPreferences)
+        mPedometerSettings = PedometerSettings(mSettings)
         mState = getSharedPreferences("state", 0)
 
         mUtils = Utils.getInstance()
@@ -230,9 +209,9 @@ class StepService : Service() {
         reloadSettings()
 
         // Tell the user we started.
-        val last_date = mSettings.getString("last_date", "")
-        if (!last_date.isEmpty() && date != last_date)
-            sendToFireBase(last_date)
+        val lastDate = mSettings.getString("last_date", "")
+        if (!lastDate.isEmpty() && date != lastDate)
+            sendToFireBase(lastDate)
     }
 
     override fun onStart(intent: Intent, startId: Int) {
@@ -271,7 +250,7 @@ class StepService : Service() {
         sendBroadcast(broadcastIntent)
     }
 
-    fun sendToFireBase(last_date: String) {
+    private fun sendToFireBase(last_date: String) {
         val androidID = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
         FirebaseDatabase.getInstance().getReference("users_history").child(androidID).child(last_date).child("calories_burned").child(mSteps.toString()).setValue(mCalories.toString())
         resetValues()
@@ -387,19 +366,17 @@ class StepService : Service() {
     private fun acquireWakeLock() {
         val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
         val wakeFlags: Int
-        if (mPedometerSettings.wakeAggressively()) {
-            wakeFlags = PowerManager.SCREEN_DIM_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP
-        } else if (mPedometerSettings.keepScreenOn()) {
-            wakeFlags = PowerManager.SCREEN_DIM_WAKE_LOCK
-        } else {
-            wakeFlags = PowerManager.PARTIAL_WAKE_LOCK
+        when {
+            mPedometerSettings.wakeAggressively() -> wakeFlags = PowerManager.SCREEN_DIM_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP
+            mPedometerSettings.keepScreenOn() -> wakeFlags = PowerManager.SCREEN_DIM_WAKE_LOCK
+            else -> wakeFlags = PowerManager.PARTIAL_WAKE_LOCK
         }
         wakeLock = pm.newWakeLock(wakeFlags, TAG)
         wakeLock.acquire()
     }
 
     companion object {
-        private val TAG = "myapp:myQ"
+        private const val TAG = "myapp:myQ"
     }
 
 }

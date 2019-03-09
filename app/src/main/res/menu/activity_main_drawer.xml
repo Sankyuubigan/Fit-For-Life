@@ -31,7 +31,7 @@
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Поделиться приложением" />
+                android:title="@string/tell_about_us" />
         </menu>
     </item>
 

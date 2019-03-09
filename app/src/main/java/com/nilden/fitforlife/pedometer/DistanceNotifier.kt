@@ -1,29 +1,13 @@
-/*
- *  Pedometer - Android App
- *  Copyright (C) 2009 Levente Bagi
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+
 
 package com.nilden.fitforlife.pedometer
 
-class DistanceNotifier(private val mListener: Listener, internal var mSettings: PedometerSettings, internal var mUtils: Utils) : StepListener, SpeakingTimer.Listener {
+class DistanceNotifier(private val mListener: Listener, private var mSettings: PedometerSettings, private var mUtils: Utils) : StepListener, SpeakingTimer.Listener {
 
-    internal var mDistance = 0f
+    private var mDistance = 0f
 
-    internal var mIsMetric: Boolean = false
-    internal var mStepLength: Float = 0.toFloat()
+    private var mIsMetric: Boolean = false
+    private var mStepLength: Float = 0.toFloat()
 
     interface Listener {
         fun valueChanged(value: Float)
@@ -47,12 +31,12 @@ class DistanceNotifier(private val mListener: Listener, internal var mSettings: 
 
     override fun onStep() {
 
-        if (mIsMetric) {
-            mDistance += (// kilometers
+        mDistance += if (mIsMetric) {
+            (// kilometers
                     mStepLength // centimeters
                             / 100000.0).toFloat() // centimeters/kilometer
         } else {
-            mDistance += (// miles
+            (// miles
                     mStepLength // inches
                             / 63360.0).toFloat() // inches/mile
         }

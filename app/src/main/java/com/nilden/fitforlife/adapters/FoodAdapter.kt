@@ -6,17 +6,16 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import com.nilden.fitforlife.R
 import com.nilden.fitforlife.adapters.FoodAdapter.FoodViewHolder
 import com.nilden.fitforlife.models.Food
+import kotlinx.android.synthetic.main.item_nutrition.view.*
 import java.util.*
 
- class FoodAdapter(private val mData: ArrayList<Food>, internal var ctx: FragmentActivity) : RecyclerView.Adapter<FoodViewHolder>() {
-    internal var onDeleteListener: OnDeleteListener? = null
+class FoodAdapter(private val mData: ArrayList<Food>, internal var ctx: FragmentActivity) : RecyclerView.Adapter<FoodViewHolder>() {
+    private var onDeleteListener: OnDeleteListener? = null
 
-     interface OnDeleteListener {
+    interface OnDeleteListener {
         fun onDelete(name: String)
     }
 
@@ -30,9 +29,7 @@ import java.util.*
     }
 
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
-        holder.tv_food_name.text = mData[position].name
-        holder.tv_food_kkal.text = "${mData[position].kkal} ккал"
-        holder.iv_delete.setOnClickListener { showDeleteDialog(ctx.getString(R.string.are_you_sure_delete_this_entry), position) }
+        holder.bindFood(mData[position])
     }
 
     fun showDeleteDialog(message: String, position: Int) {
@@ -50,14 +47,12 @@ import java.util.*
     }
 
     inner class FoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tv_food_name: TextView
-        var tv_food_kkal: TextView
-        var iv_delete: ImageView
 
-        init {
-            tv_food_name = itemView.findViewById(R.id.tv_food_name)
-            tv_food_kkal = itemView.findViewById(R.id.tv_food_kkal)
-            iv_delete = itemView.findViewById(R.id.iv_delete)
+        fun bindFood(food: Food) {
+            itemView.tv_food_name
+            itemView.tv_food_name.text = food.name
+            itemView.tv_food_kkal.text = "${food.kkal} ккал"
+            itemView.iv_delete.setOnClickListener { showDeleteDialog(ctx.getString(R.string.are_you_sure_delete_this_entry), adapterPosition) }
         }
 
     }

@@ -72,7 +72,7 @@ class Utils private constructor() : TextToSpeech.OnInitListener {
     fun ding() {}
 
     companion object {
-        private val TAG = "Utils"
+        private const val TAG = "Utils"
 
         private var instance: Utils? = null
 

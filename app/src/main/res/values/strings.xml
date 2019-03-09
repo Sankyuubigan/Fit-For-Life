@@ -112,4 +112,5 @@
     <string name="yes">Да</string>
     <string name="firebase_database_name">users_history</string>
     <string name="press_for_open_details_info">Нажмите, чтобы открыть подробную информацию</string>
+    <string name="tell_about_us">Поделиться приложением</string>
 </resources>

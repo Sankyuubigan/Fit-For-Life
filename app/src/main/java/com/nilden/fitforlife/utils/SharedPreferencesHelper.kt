@@ -24,10 +24,6 @@ class SharedPreferencesHelper(application: FitForLifeApplication) {
         return sPrefs.getBoolean(key, DEFAULT_BOOLEAN)
     }
 
-    fun saveString(key: String, value: String) {
-        sPrefs.edit().putString(key, value).apply()
-    }
-
     fun getString(key: String): String {
         return sPrefs.getString(key, DEFAULT_STRING)
     }
@@ -42,14 +38,14 @@ class SharedPreferencesHelper(application: FitForLifeApplication) {
 
     companion object {
 
-        private val SETTING_PREFERENCES_FILE = "com.nilden.firforlife.settings"
+        private const val SETTING_PREFERENCES_FILE = "com.nilden.firforlife.settings"
 
-        val KEY_KEEP_SCREEN_ON = "com.nilden.firforlife.keep_screen_on"
-        val KEY_UPDATING_TIME = "com.nilden.firforlife.updating_time"
-        val KEY_UPDATE_AUTOMATICALLY = "com.nilden.firforlife.update_automatically"
+        const val KEY_KEEP_SCREEN_ON = "com.nilden.firforlife.keep_screen_on"
+        const val KEY_UPDATING_TIME = "com.nilden.firforlife.updating_time"
+        const val KEY_UPDATE_AUTOMATICALLY = "com.nilden.firforlife.update_automatically"
 
-        private val DEFAULT_STRING = ""
-        private val DEFAULT_INT = 30
-        private val DEFAULT_BOOLEAN = false
+        private const val DEFAULT_STRING = ""
+        private const val DEFAULT_INT = 30
+        private const val DEFAULT_BOOLEAN = false
     }
 }

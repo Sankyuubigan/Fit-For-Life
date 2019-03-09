@@ -14,6 +14,7 @@ class FitForLifeApplication : Application() {
         instance = this
         preferencesHelper = SharedPreferencesHelper(this)
     }
+
     companion object {
 
         lateinit var instance: FitForLifeApplication

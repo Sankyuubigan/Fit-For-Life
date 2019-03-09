@@ -12,27 +12,25 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.TextView
 import com.google.firebase.database.FirebaseDatabase
 import com.nilden.fitforlife.FitForLifeApplication
 import com.nilden.fitforlife.R
 import com.nilden.fitforlife.utils.SharedPreferencesHelper
+import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var mSharedPreferencesHelper: SharedPreferencesHelper
-    private lateinit var remove_all_history: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         mSharedPreferencesHelper = FitForLifeApplication.instance.preferencesHelper
         initViews()
-        remove_all_history = findViewById(R.id.remove_all_history)
         remove_all_history.setOnClickListener { showDeleteDialog(this@SettingsActivity, getString(R.string.are_you_sure_delete_all_history)) }
     }
 
-    fun showDeleteDialog(ctx: Context, message: String) {
+    private fun showDeleteDialog(ctx: Context, message: String) {
         AlertDialog.Builder(ctx).setMessage(message)
                 .setPositiveButton(getString(R.string.yes)) { dialog, which ->
                     val androidID = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
